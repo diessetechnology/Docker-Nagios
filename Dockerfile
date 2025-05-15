@@ -6,7 +6,7 @@ ENV NAGIOS_USER            nagios
 ENV NAGIOS_GROUP           nagios
 ENV NAGIOS_CMDUSER         nagios
 ENV NAGIOS_CMDGROUP        nagios
-ENV NAGIOS_FQDN            nagios.example.com
+ENV NAGIOS_FQDN            nagios.diessetechnology.online
 ENV NAGIOSADMIN_USER       nagiosadmin
 ENV NAGIOSADMIN_PASS       nagios
 ENV APACHE_RUN_USER        nagios
@@ -17,11 +17,11 @@ ENV NG_NAGIOS_CONFIG_FILE  ${NAGIOS_HOME}/etc/nagios.cfg
 ENV NG_CGI_DIR             ${NAGIOS_HOME}/sbin
 ENV NG_WWW_DIR             ${NAGIOS_HOME}/share/nagiosgraph
 ENV NG_CGI_URL             /cgi-bin
-ENV NAGIOS_BRANCH          nagios-4.5.7
-ENV NAGIOS_PLUGINS_BRANCH  release-2.4.12
-ENV NRPE_BRANCH            nrpe-4.1.1
-ENV NCPA_BRANCH            v3.1.1
-ENV NSCA_BRANCH            nsca-2.10.2
+ENV NAGIOS_BRANCH          master
+ENV NAGIOS_PLUGINS_BRANCH  master
+ENV NRPE_BRANCH            master
+ENV NCPA_BRANCH            master
+ENV NSCA_BRANCH            master
 ENV NAGIOSTV_VERSION       0.9.2
 
 
