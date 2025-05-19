@@ -299,7 +299,21 @@ RUN echo "ServerName ${NAGIOS_FQDN}" > /etc/apache2/conf-available/servername.co
     ln -s /etc/apache2/conf-available/servername.conf /etc/apache2/conf-enabled/servername.conf    && \
     ln -s /etc/apache2/conf-available/timezone.conf /etc/apache2/conf-enabled/timezone.conf
 
-EXPOSE 80 5667 
+RUN apt-get update && apt-get install -y \
+    python3-django \
+    python3-pip \
+    python3-requests \
+    python3-setuptools \
+    python3-venv \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN pip3 install adagios
+
+RUN mkdir -p ${NAGIOS_HOME}/etc/adagios && \
+    cp /opt/nagios/etc/nagios.cfg ${NAGIOS_HOME}/etc/adagios/nagios.cfg && \
+    echo "nagios_host = '${NAGIOS_FQDN}'" >> ${NAGIOS_HOME}/etc/adagios/adagios.cfg
+
+EXPOSE 80 5667 8000
 
 VOLUME "${NAGIOS_HOME}/var" "${NAGIOS_HOME}/etc" "/var/log/apache2" "/opt/Custom-Nagios-Plugins" "/opt/nagiosgraph/var" "/opt/nagiosgraph/etc"
 
