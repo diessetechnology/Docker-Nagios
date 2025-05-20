@@ -308,11 +308,11 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://github.com/opinkerfi/adagios/raw/master/contrib/mk-livestatus-1.2.6.tar.gz
-RUN tar -zxvf mk-livestatus-1.2.6.tar.gz
-RUN cd mk-livestatus-1.2.6
-RUN ./configure --with-nagios4
-RUN make
-RUN make install
+&& tar -zxvf mk-livestatus-1.2.6.tar.gz
+&& cd mk-livestatus-1.2.6
+&& ./configure --with-nagios4
+&& make
+&& make install
 RUN mkdir -p /usr/lib/nagios/mk-livestatus
 RUN chown nagios:apache /usr/lib/nagios/mk-livestatus
 RUN echo 'broker_module=/usr/local/lib/mk-livestatus/livestatus.o /usr/lib/nagios/mk-livestatus/livestatus' | sudo tee -a /opt/nagios/etc/nagios.cfg
