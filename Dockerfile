@@ -307,11 +307,11 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://github.com/opinkerfi/adagios/raw/master/contrib/mk-livestatus-1.2.6.tar.gz
-&& tar -zxvf mk-livestatus-1.2.6.tar.gz
-&& cd mk-livestatus-1.2.6
-&& ./configure --with-nagios4
-&& make
+RUN wget https://github.com/opinkerfi/adagios/raw/master/contrib/mk-livestatus-1.2.6.tar.gz \
+&& tar -zxvf mk-livestatus-1.2.6.tar.gz \
+&& cd mk-livestatus-1.2.6 \
+&& ./configure --with-nagios4 \
+&& make \
 && make install
 RUN mkdir -p /usr/lib/nagios/mk-livestatus
 RUN chown nagios:apache /usr/lib/nagios/mk-livestatus
