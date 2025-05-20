@@ -309,13 +309,11 @@ RUN apt-get update && apt-get install -y \
 
 
 WORKDIR /opt/nagios/share
-RUN apt-get update -y && apt-get -y install php-xml
-RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
+RUN apt-get update -y && apt-get -y install php-xml php-pear php-mysql
 RUN apt-get -y install libssh2-1-dev
 RUN apt install php8.3-ssh2
 RUN bash -c "echo extension=ssh2.so > /etc/php/php.ini"
 RUN wget "https://netix.dl.sourceforge.net/project/nagiosql/nagiosql/NagiosQL%203.5.0/nagiosql-3.5.0-git2023-06-18.tar.gz" && tar xzf "nagiosql-3.5.0-git2023-06-18.tar.gz" && rm -f "nagiosql-3.5.0-git2023-06-18.tar.gz" && rm -rf nagiosql &&  mv nagiosql-3.5.0 nagiosql &&     chown -R www-data:www-data nagiosql &&     chmod -R 755 nagiosql # buildkit
-    
     
 EXPOSE 80 5667
 
