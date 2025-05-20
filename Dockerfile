@@ -307,7 +307,7 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN wget "https://deac-riga.dl.sourceforge.net/project/nagiosql/nagiosql/NagiosQL%203.5.0/nagiosql-3.5.0-git2023-06-18.tar.gz?viasf=1" &&     tar xzf "nagiosql-3.5.0-git2023-06-18.tar.gz" &&     rm -f "nagiosql-3.5.0-git2023-06-18.tar.gz" &&     rm -rf nagiosql &&     mv nagiosql-3.5.0 nagiosql &&     chown -R www-data:www-data /var/www/html/nagiosql &&     chmod -R 755 /var/www/html/nagiosql # buildkit
+RUN wget "https://netix.dl.sourceforge.net/project/nagiosql/nagiosql/NagiosQL%203.5.0/nagiosql-3.5.0-git2023-06-18.tar.gz" &&     tar xzf "nagiosql-3.5.0-git2023-06-18.tar.gz" &&     rm -f "nagiosql-3.5.0-git2023-06-18.tar.gz" &&     rm -rf nagiosql &&     mv nagiosql-3.5.0 nagiosql &&     chown -R www-data:www-data /var/www/html/nagiosql &&     chmod -R 755 /var/www/html/nagiosql # buildkit
     
     
 EXPOSE 80 5667
