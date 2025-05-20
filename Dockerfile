@@ -310,8 +310,7 @@ RUN apt-get update && apt-get install -y \
 RUN cd /tmp
 RUN wget https://github.com/opinkerfi/adagios/raw/master/contrib/mk-livestatus-1.2.6.tar.gz
 RUN tar -zxvf mk-livestatus-1.2.6.tar.gz
-RUN cd mk-livestatus-1.2.6
-RUN pwd
+RUN cd /tmp/mk-livestatus-1.2.6
 RUN ./configure --with-nagios4
 RUN make
 RUN make install
