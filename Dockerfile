@@ -308,9 +308,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp
-RUN wget https://droppa.ok.is/dl/data/8b15d652f132667abbf0b80dd9d956d4cc368d1c/mk-livestatus-1.2.6.tar.gz
-RUN tar -xvzf mk-livestatus-1.2.6.tar.gz
-RUN cd mk-livestatus-1.2.6
+RUN wget https://mathias-kettner.de/download/mk-livestatus-1.2.8p18.tar.gz
+RUN tar -xvzf mk-livestatus-1.2.8p18.tar.gz
+RUN cd mk-livestatus-1.2.8p18
 RUN ./configure --with-nagios4
 RUN make
 RUN make install
