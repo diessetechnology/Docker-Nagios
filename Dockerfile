@@ -315,7 +315,7 @@ RUN apt install php8.3-ssh2
 RUN bash -c "echo extension=ssh2.so > /etc/php/php.ini"
 RUN wget "https://netix.dl.sourceforge.net/project/nagiosql/nagiosql/NagiosQL%203.5.0/nagiosql-3.5.0-git2023-06-18.tar.gz" && tar xzf "nagiosql-3.5.0-git2023-06-18.tar.gz" && rm -f "nagiosql-3.5.0-git2023-06-18.tar.gz" && rm -rf nagiosql &&  mv nagiosql-3.5.0 /opt/nagios/share/nagiosql &&     chown -R www-data:www-data /opt/nagios/share/nagiosql &&     chmod -R 777 /opt/nagios/share/nagiosql # buildkit
 
-RUN git clone https://github.com/HariSekhon/Nagios-Plugins && cd nagios-plugins && make build
+RUN git clone https://github.com/HariSekhon/Nagios-Plugins && cd Nagios-Plugins && make build
 
 
 EXPOSE 80 5667
