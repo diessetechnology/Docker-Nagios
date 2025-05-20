@@ -308,9 +308,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN cd /tmp
-RUN wget https://mathias-kettner.de/download/mk-livestatus-1.2.8p18.tar.gz
-RUN tar -xvzf mk-livestatus-1.2.8p18.tar.gz
-RUN cd mk-livestatus-1.2.8p18
+RUN wget https://github.com/opinkerfi/adagios/raw/master/contrib/mk-livestatus-1.2.6.tar.gz
+RUN tar -xvzf mk-livestatus-1.2.6.tar.gz
+RUN cd mk-livestatus-1.2.6
 RUN ./configure --with-nagios4
 RUN make
 RUN make install
