@@ -307,14 +307,42 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN apt update
-RUN apt -y install pipx
-RUN pipx ensurepath
-RUN pipx install adagios
-
-RUN mkdir -p ${NAGIOS_HOME}/etc/adagios && \
-    cp /opt/nagios/etc/nagios.cfg ${NAGIOS_HOME}/etc/adagios/nagios.cfg && \
-    echo "nagios_host = '${NAGIOS_FQDN}'" >> ${NAGIOS_HOME}/etc/adagios/adagios.cfg
+RUN git clone -b master --depth 1 https://github.com/opinkerfi/adagios.git /opt/adagios
+RUN chown --recursive adagios:adagios /opt/adagios/
+RUN mkdir -p /etc/adagios/conf.d /var/lib/adagios /opt/nagios/etc/adagios
+RUN cp /opt/adagios/adagios/etc/adagios/adagios.conf /etc/adagios/adagios.conf
+RUN sed -i 's|/etc/nagios|/usr/local/nagios/etc|g' /etc/adagios/adagios.conf
+RUN sed -i 's|/usr/sbin/nagios|/usr/local/nagios/bin/nagios|g' /etc/adagios/adagios.conf
+RUN sed -i 's|enable_pnp4nagios = True|enable_pnp4nagios = False|g' /etc/adagios/adagios.conf
+RUN sed -i 's|# ALLOWED_HOSTS|ALLOWED_HOSTS|g' /etc/adagios/adagios.conf
+RUN sed -i 's|livestatus_path = None|livestatus_path = "/usr/lib/nagios/mk-livestatus/livestatus"|g' /etc/adagios/adagios.conf
+RUN cp /opt/adagios/adagios/etc/adagios/conf.d/force_script_name.conf /etc/adagios/conf.d/
+RUN cp /opt/adagios/adagios/etc/adagios/conf.d/okconfig.conf /etc/adagios/conf.d/
+RUN cp /opt/adagios/adagios/etc/sudoers.d/adagios /etc/sudoers.d/
+RUN chown --recursive adagios:adagios /etc/adagios /var/lib/adagios
+RUN cp /opt/adagios/contrib/gunicorn.py /opt/adagios/gunicorn.py
+RUN cp /opt/adagios/contrib/*.service /etc/systemd/system/
+RUN systemctl daemon-reload
+RUN systemctl start adagios
+RUN systemctl enable adagios
+RUN /opt/adagios/upgrade.sh
+RUN chown --recursive adagios:adagios /opt/adagios/
+RUN source /opt/adagios/venv/bin/activate
+RUN pynag config --append cfg_dir=/opt/nagios/etc/adagios
+RUN pynag config --append "broker_module=/usr/local/lib/mk-livestatus/livestatus.o /usr/lib/nagios/mk-livestatus/livestatus'"
+RUN git clone -b master --depth 1 https://github.com/opinkerfi/okconfig.git /opt/okconfig
+RUN echo 'export PYTHONPATH=$PYTHONPATH:/opt/okconfig' | sudo tee /etc/profile.d/okconfig.sh
+RUN cp /opt/okconfig/etc/okconfig.conf /etc/okconfig.conf
+RUN source /etc/profile
+RUN ln -s /opt/okconfig/usr/share/okconfig /usr/share/
+RUN ln -s /opt/okconfig/usr/bin/okconfig /usr/local/bin/
+RUN sudo sed -i 's|/etc/nagios/nagios.cfg|/opt/nagios/etc/nagios.cfg|g' /etc/okconfig.conf
+RUN sudo sed -i 's|/etc/nagios/okconfig|/opt/nagios/etc/okconfig|g' /etc/okconfig.conf
+RUN echo 'cfg_dir=/usr/share/okconfig/templates' | sudo tee -a /usr/local/nagios/etc/nagios.cfg
+RUN source /opt/adagios/venv/bin/activate
+RUN okconfig init
+RUN okconfig verify
+RUN systemctl restart nagios adagios httpd
     
 EXPOSE 80 5667 8000
 
