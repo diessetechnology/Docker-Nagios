@@ -309,7 +309,7 @@ RUN apt-get update && apt-get install -y \
 
 
 WORKDIR /opt/nagios/share
-RUN apt-get -y install php-xml
+RUN apt-get -y install php8-xml
 RUN wget http://pear.php.net/go-pear.phar && php go-pear.phar
 RUN sudo apt-get -y install libssh2-1-dev
 RUN yes '' | sudo pecl8.3-sp install ssh2
