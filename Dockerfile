@@ -307,6 +307,9 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN sudo apt update
+RUN sudo apt install pipx
+RUN pipx ensurepath
 RUN pip3 install adagios
 
 RUN mkdir -p ${NAGIOS_HOME}/etc/adagios && \
