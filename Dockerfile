@@ -307,6 +307,19 @@ RUN apt-get update && apt-get install -y \
     python3-venv \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN cd /tmp
+RUN wget https://droppa.ok.is/dl/data/8b15d652f132667abbf0b80dd9d956d4cc368d1c/mk-livestatus-1.2.6.tar.gz
+RUN tar -xvzf mk-livestatus-1.2.6.tar.gz
+RUN cd mk-livestatus-1.2.6
+RUN ./configure --with-nagios4
+RUN make
+RUN make install
+RUN mkdir -p /usr/lib/nagios/mk-livestatus
+RUN chown nagios:apache /usr/lib/nagios/mk-livestatus
+RUN echo 'broker_module=/usr/local/lib/mk-livestatus/livestatus.o /usr/lib/nagios/mk-livestatus/livestatus' | sudo tee -a /opt/nagios/etc/nagios.cfg
+RUN groupadd --system adagios
+RUN adduser --system -g adagios adagios
+RUN usermod -aG nagios adagios
 RUN git clone -b master --depth 1 https://github.com/opinkerfi/adagios.git /opt/adagios
 RUN chown --recursive adagios:adagios /opt/adagios/
 RUN mkdir -p /etc/adagios/conf.d /var/lib/adagios /opt/nagios/etc/adagios
