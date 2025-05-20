@@ -308,9 +308,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN apt update
-RUN apt install pipx
+RUN apt -y install pipx
 RUN pipx ensurepath
-RUN pip3 install adagios
+RUN pipx install adagios
 
 RUN mkdir -p ${NAGIOS_HOME}/etc/adagios && \
     cp /opt/nagios/etc/nagios.cfg ${NAGIOS_HOME}/etc/adagios/nagios.cfg && \
